@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+  namespace: revshop
+spec:
+  selector:
+    app: revshop007  # Match labels in Deployment
+  type: NodePort  # Expose as NodePort
+  ports:
+    - protocol: TCP
+      port: 80          # External service port
+      targetPort: 8081  # Your app's container port
+      nodePort: 30011   # Choose between 30000-32767

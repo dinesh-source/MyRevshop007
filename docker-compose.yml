@@ -1,0 +1,86 @@
+
+version: '3'
+
+services:
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=Dinesh
+      - MYSQL_DATABASE=revshop_007
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - revshop-network
+  
+
+  service-discovery:
+    build:
+      context: ../service_discovery
+      dockerfile: Dockerfile
+    container_name: service-discovery
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_APPLICATION_NAME=service-discovery
+      - SERVER_PORT=8761
+      - EUREKA_CLIENT_REGISTER-WITH-EUREKA=true
+      - EUREKA_CLIENT_FETCH-REGISTRY=true
+      - EUREKA_INSTANCE_HOSTNAME=service-discovery
+    networks:
+      - revshop-network
+
+
+  api-gateway:
+    build:
+      context: ../api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "9090:9090"
+    depends_on:
+      - service-discovery
+    environment:
+      - SPRING_APPLICATION_NAME=api-gateway
+      - SERVER_PORT=9090
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-discovery:8761/eureka/
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_CLIENT_REGISTER-WITH-EUREKA=true
+      - EUREKA_CLIENT_FETCH-REGISTRY=true
+    networks:
+      - revshop-network
+
+  revshop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: revshop
+    ports:
+      - "8088:8081"
+    depends_on:
+      - service-discovery
+      - mysql-db
+    environment:
+      - SPRING_APPLICATION_NAME=revshop
+      - SERVER_PORT=8081
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/revshop_007
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Dinesh
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-discovery:8761/eureka/
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_CLIENT_REGISTER-WITH-EUREKA=true
+      - EUREKA_CLIENT_FETCH-REGISTRY=true
+      - MAIL_USERNAME=revshop007@gmail.com
+      - MAIL_PASSWORD=pwevdeunfrtovnvq
+    networks:
+      - revshop-network
+
+networks:
+  revshop-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
