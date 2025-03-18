@@ -19,7 +19,8 @@ pipeline {
             steps {
                 sh 'echo "Using Maven version:"'
                 sh 'mvn --version'  // Check if Maven is accessible
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn clean'  // Removes old build files
+                sh 'mvn package -DskipTests' 
             }
         }
         stage('Building the Docker image'){
