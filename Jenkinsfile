@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PATH = "/usr/local/bin:$PATH"  // Ensure this matches your Maven path
+        
         DOCKER_CREDENTIALS = 'Docker_cred'  // Add this in Jenkins credentials
         KUBECONFIG_CRED_ID = 'k8s-kubeconfig'
 
