@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: revshop-app
-          image: singuluridinesh007/revshop:v2  # Fixed typo
+          image: singuluridinesh007/revshop:latest # Fixed typo
           ports:
             - containerPort: 8081
           env:  # Added environment variables
