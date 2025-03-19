@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Building the Docker image'){
             steps{
-                sh 'docker build -t singuluridinesh007/revshop:v2 .'
+                sh 'docker build -t singuluridinesh007/revshop:latest .'
             }
         }
         stage('Login into the Docker Hub'){
