@@ -9,3 +9,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
+  storageClassName: mysql-storage  # Remove this line if you don't want to use a StorageClass
