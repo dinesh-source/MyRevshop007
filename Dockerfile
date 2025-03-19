@@ -2,8 +2,8 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-COPY target/revshop-0.0.1-SNAPSHOT.jar revshop-0.0.1-SNAPSHOT.jar 
+COPY target/revshop-0.0.1-SNAPSHOT.jar revshop.jar
 
 EXPOSE 8081
 
-ENTRYPOINT ["java", "-jar", "Revshop.jar"]
+ENTRYPOINT ["java", "-jar", "revshop.jar"]
