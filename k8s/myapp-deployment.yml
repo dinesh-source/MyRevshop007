@@ -1,32 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp-deployment
+  name: mysql-deployment
   namespace: revshop
 spec:
   replicas: 1
   selector:
-    matchLabels: 
-      app: revshop007
+    matchLabels:
+      app: mysql
   template:
     metadata:
-      name: revshop-pod
+      name: mysql-pod
       labels:
-        app: revshop007
+        app: mysql
     spec:
       containers:
-        - name: revshop-app
-          image: singuluridinesh007/revshop:v2  # Fixed typo
+        - name: revshop-mysql
+          image: mysql:8.0
           ports:
-            - containerPort: 8081
-          env:  # Added environment variables
-            - name: SPRING_APPLICATION_NAME
-              value: revshop
-            - name: SERVER_PORT
-              value: "8081"
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql-db:3306/revshop_007
-            - name: SPRING_DATASOURCE_USERNAME
-              value: root
-            - name: SPRING_DATASOURCE_PASSWORD
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: revshop_007
+            - name: MYSQL_ROOT_PASSWORD
               value: Dinesh
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql  # Mounting PVC to MySQL data directory
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
