@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Push it to the docker hub'){
             steps{
-                sh 'docker push singuluridinesh007/revshop:v2'
+                sh 'docker push singuluridinesh007/revshop:latest'
 
             }
         }
