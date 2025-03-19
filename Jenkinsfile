@@ -11,7 +11,10 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/dinesh-source/MyRevshop007.git'
+                sh '''
+                rm -rf MyRevshop007
+                git clone -b main https://github.com/dinesh-source/MyRevshop007.git
+                '''
             }
         }
 
