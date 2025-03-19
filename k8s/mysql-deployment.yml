@@ -11,7 +11,6 @@ spec:
   template:
     metadata:
       name: mysql-pod
-      namespace: revshop
       labels:
         app: mysql
     spec:
@@ -24,8 +23,13 @@ spec:
             - name: MYSQL_DATABASE
               value: revshop_007
             - name: MYSQL_ROOT_PASSWORD
-              value: Dinesh
-            
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: root-password
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql  # Mount to MySQL data directory
       volumes:
         - name: mysql-data
           persistentVolumeClaim:
