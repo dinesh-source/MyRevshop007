@@ -23,13 +23,10 @@ spec:
             - name: MYSQL_DATABASE
               value: revshop_007
             - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: root-password
+              value: Dinesh
           volumeMounts:
             - name: mysql-data
-              mountPath: /var/lib/mysql  # Mount to MySQL data directory
+              mountPath: /var/lib/mysql  # Mounting PVC to MySQL data directory
       volumes:
         - name: mysql-data
           persistentVolumeClaim:
