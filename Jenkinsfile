@@ -61,7 +61,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                   
+                   kubectl delete all --all -n revshop
                     cd k8s  # Move inside the k8s folder
                     kubectl apply -f . --namespace=revshop  # Apply all YAML files in the specified namespace
                     kubectl get pods -n revshop # List pods in your namespace
